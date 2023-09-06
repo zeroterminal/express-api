@@ -1,12 +1,19 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import usersRoutes from './routes/users.js';
+import mongoose from 'mongoose';
+import 'dotenv/config'
+
+mongoose.connect(`${process.env.database}`, { useNewUrlParser: true })
+const db = mongoose.connection
+// db.on('error', (error) => console.error(error))
+// db.once('open', () => console.error(error))
+
 
 const app   = express();
 const PORT  = 5000;
 
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/users', usersRoutes);
 
