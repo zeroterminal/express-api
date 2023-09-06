@@ -1,7 +1,8 @@
 import express from 'express';
 import usersRoutes from './routes/users.js';
 import mongoose from 'mongoose';
-import 'dotenv/config'
+import UsersSchema from './Models/schema.js';
+import 'dotenv/config';
 
 mongoose.connect(`${process.env.database}`, { useNewUrlParser: true })
 const db = mongoose.connection
