@@ -1,7 +1,7 @@
 import express from 'express';
 import usersRoutes from './routes/users.js';
 import mongoose from 'mongoose';
-import Users from './Models/usersModel.js';
+import User from './Models/usersModel.js';
 import 'dotenv/config';
 
 
@@ -21,17 +21,14 @@ app.get('/', (req, res) => { res.send("homepage"); })
 mongoose.connect(process.env.database).then(() => {console.log("....:: Connected to Database ::...")}).catch((err) => {console.log(err)});
 
 
-console.log("\n\n *** " + Users.Username + " *** \n\n")
 
-// let isa = new Users(
-//     {
-//         Username: "aizashi",
-//         Name: "Meowabelle",
-//         Email: "little_farter@gmail.com",
-//         Password: "imeow@you"
-//     }
-// );
+let isa = new User ({
+        Username: "aizashi",
+        Name: "Meowabelle",
+        Email: "little_farter@gmail.com",
+        Password: "imeow@you"
+    });
     
 // isa.save(function(err, users) { if (err) { return console.error(err) } console.log(isa.name + " Saved to database") })
-
+isa.save();
 app.listen(PORT, () => console.log(`server running on ${PORT}`));
