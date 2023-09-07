@@ -2,6 +2,7 @@ import express from 'express';
 import usersRoutes from './routes/users.js';
 import mongoose from 'mongoose';
 import User from './Models/usersModel.js';
+import Cors from 'cors';
 import 'dotenv/config';
 
 
@@ -20,15 +21,24 @@ app.get('/', (req, res) => { res.send("homepage"); })
 
 mongoose.connect(process.env.database).then(() => {console.log("....:: Connected to Database ::...")}).catch((err) => {console.log(err)});
 
+let query = new User();
 
 
-let isa = new User ({
-        Username: "aizashi",
-        Name: "Meowabelle",
-        Email: "little_farter@gmail.com",
-        Password: "imeow@you"
-    });
+
+// let jay = new User ({
+//     Username: "zero",
+//     Name: "X",
+//     Email: "X@zoned",
+//     Password: "core-"
+// });
+// jay.save();
+// let isa = new User ({
+//     Username: "aizashi",
+//     Name: "Meowabelle",
+//     Email: "little_farter@gmail.com",
+//     Password: "imeow@you"
+// });
     
 // isa.save(function(err, users) { if (err) { return console.error(err) } console.log(isa.name + " Saved to database") })
-isa.save();
+// isa.save();
 app.listen(PORT, () => console.log(`server running on ${PORT}`));
