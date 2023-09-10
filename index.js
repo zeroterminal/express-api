@@ -1,5 +1,5 @@
 import express from 'express';
-import usersRoutes from './routes/users.js';
+import usersController from './Controllers/usersController.js';
 import mongoose from 'mongoose';
 import User from './Models/usersModel.js';
 import Cors from 'cors';
@@ -15,7 +15,7 @@ const PORT  = 5000;
 
 app.use(express.json());
 
-app.use('/users', usersRoutes);
+app.use('/users', usersController);
 
 app.get('/', (req, res) => { res.send("homepage"); })
 
