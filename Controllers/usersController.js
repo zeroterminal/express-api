@@ -2,7 +2,7 @@ import User from '../Models/usersModel.js';
 import express from 'express';
 const usersController = express.Router();
 
-usersController.get('/createAdmin', (req, res) => {
+usersController.post('/createAdmin', (req, res) => {
   res.json('CREATED username ADMIN and password P@ssword')
   let admin = new User ({
       Username: "admin",
@@ -34,31 +34,48 @@ usersController.delete('delete/:username', async (req, res) => {
   }
 })
 
-usersController.post('create/:username', async (req, res) => {
-  const newUsername = req.params.username;
-  const newName     = req.params.name;
-  const newEmail    = req.params.email;
-  const newPassword = req.params.password;
-  const newLevel    = req.params.level;
+usersController.post('/create', (req, res) => {
+  // let newUsername = req.body.Username;
+  // let newName     = req.body.Name;
+  // let newEmail    = req.body.Email;
+  // let newPassword = req.body.Password;
+  // let newLevel    = req.body.Level;
 
-  try {
+
+
+
+  // res.json({
+  //   Username: req.body.Username,
+  //   Name: req.body.Name,
+  //   Email: req.body.Email,
+  //   Password: req.body.Password,
+  //   Level: req.body.Level
+  // })
+
+  
+    // const createUser = new User({
+    //   Username: newUsername,
+    //   Name: newName,
+    //   Email: newEmail,
+    //   Password: newPassword,
+    //   Level: newLevel
+    // })
+
     const createUser = new User({
-      Username: newUsername,
-      Name: newName,
-      Email: newEmail,
-      Password: newPassword,
-      Level: newLevel
+      Username: req.body.Username,
+      Name: req.body.Name,
+      Email: req.body.Email,
+      Password: req.body.Password,
+      Level: req.body.Level
     })
-    
-    
-    if(!createUser) {res.status(404).json({error: 'Creating User Failed'});}
     createUser.save();
-    res.json({message: 'Successfully added : ' + newUsername});
-  } 
-  catch (err) {
-    res.status(500).json({error: err.message});
-  }
-})
+  return res.json({"message": `Successfully Created ${req.body.Username}`})
+    
+    
+  //   if(!createUser) {res.status(404).json({error: 'Creating User Failed'});}
+  //   createUser.save();
+  //   res.json({message: 'Successfully added : ' + newUsername});
+  });
 
 export default usersController;
 

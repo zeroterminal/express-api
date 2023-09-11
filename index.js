@@ -1,6 +1,7 @@
 import express from 'express';
 import usersController from './Controllers/usersController.js';
 import mongoose from 'mongoose';
+import bodyParser from "body-parser";
 import 'dotenv/config';
 
 
@@ -12,7 +13,12 @@ db.on('open', () => { console.log(' ...:: database opened successfully ::...')} 
 const app   = express();
 const PORT  = 5000;
 
-app.use(express.json());
+
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// app.use(express.json());
 
 app.use('/users', usersController);
 
