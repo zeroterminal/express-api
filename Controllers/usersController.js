@@ -35,6 +35,32 @@ usersController.delete('delete/:username', async (req, res) => {
 })
 
 usersController.post('/create', (req, res) => {
+  // let newUsername = req.body.Username;
+  // let newName     = req.body.Name;
+  // let newEmail    = req.body.Email;
+  // let newPassword = req.body.Password;
+  // let newLevel    = req.body.Level;
+
+
+
+
+  // res.json({
+  //   Username: req.body.Username,
+  //   Name: req.body.Name,
+  //   Email: req.body.Email,
+  //   Password: req.body.Password,
+  //   Level: req.body.Level
+  // })
+
+  
+    // const createUser = new User({
+    //   Username: newUsername,
+    //   Name: newName,
+    //   Email: newEmail,
+    //   Password: newPassword,
+    //   Level: newLevel
+    // })
+
     const createUser = new User({
       Username: req.body.Username,
       Name: req.body.Name,
@@ -43,7 +69,10 @@ usersController.post('/create', (req, res) => {
       Level: req.body.Level
     })
     createUser.save();
-  return res.json("message": `Successfully Created ${req.body.Username}`})
+    return res.json({"message": "Successfully Created" + req.body.Username})
+    
+  });
+
 export default usersController;
 
 // class UsersController {
