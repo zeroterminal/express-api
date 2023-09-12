@@ -20,17 +20,15 @@ usersController.get('/', async (req, res) => {
   res.json(users);
 })
 
-usersController.delete('delete/:username', async (req, res) => {
-  const deleteUsername = req.params.username;
+usersController.delete('/:username', async (req, res) => {
+  const { username } = req.params;
   try {
-    const deleteUser = await User.findOneAndDelete({username: deleteUsername});
-    if(!deleteUser) {res.status(404).json({error: 'username was not found'});}
-    res.json({message: 'Successfully Deleted : ' + deleteUsername});
-  } 
-  catch (err) {
-    res.status(500).json({error: err.message});
-  }
-})
+    await User.findOneAndDelete({ username: username })
+      res.json(username + ' has been succesfully deleted');    
+  } catch (error) {
+      res.json('Error' + error);
+    }
+  })
 
 usersController.post('/create', (req, res) => {
     const createUser = new User({
@@ -41,7 +39,7 @@ usersController.post('/create', (req, res) => {
       Level: req.body.Level
     })
     createUser.save();
-    return res.json({"message": "Successfully Created" + req.body.Username})
+    return res.json({"message": "Successfully Created " + req.body.Username})
     
   });
 
