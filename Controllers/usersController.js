@@ -23,8 +23,7 @@ usersController.get('/', async (req, res) => {
 usersController.delete('/:username', async (req, res) => {
   const { username } = req.params;
   try {
-    await User.findOneAndDelete({ username: username })
-      res.json(username + ' has been succesfully deleted');    
+    const deleteUser = await User.findOneAndDelete({ username: username })
   } catch (error) {
       res.json('Error' + error);
     }
