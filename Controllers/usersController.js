@@ -21,13 +21,17 @@ usersController.get('/', async (req, res) => {
 })
 
 usersController.delete('/:username', async (req, res) => {
-  const { username } = req.params;
-  try {
-    const deleteUser = await User.findOneAndDelete({ username: username })
-  } catch (error) {
-      res.json('Error' + error);
-    }
-  })
+  const deleteUser = req.params.username
+  const result = await User.findOneAndDelete(deleteUser);
+  res.send("success")
+    // if  (result) {
+    //   res.send("Success")
+    // } else {
+    //   res.send("failed");
+    // }
+    // res.send(deleteUser)
+   
+})
 
 usersController.post('/create', (req, res) => {
     const createUser = new User({
