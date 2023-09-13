@@ -23,15 +23,28 @@ usersController.get('/', async (req, res) => {
 usersController.delete('/:username', async (req, res) => {
   const deleteUser = req.params.username
   const result = await User.findOneAndDelete(deleteUser);
-  res.send("success")
-    // if  (result) {
-    //   res.send("Success")
-    // } else {
-    //   res.send("failed");
-    // }
-    // res.send(deleteUser)
+
+  if (result) {
+    res.send("Success")
+  } else {
+    res.send("failed");
+  }
+  res.send(deleteUser)
+
    
 })
+
+
+usersController.put('/edit/:username', async (req, res) => {
+
+  try {
+    const {id} = req.params;
+    // const editUser = await User.
+  } catch (error) {
+    res.json({'message': error.message})
+  }
+})
+
 
 usersController.post('/create', (req, res) => {
     const createUser = new User({
@@ -47,6 +60,30 @@ usersController.post('/create', (req, res) => {
   });
 
 export default usersController;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // class UsersController {
 //   static login = async (req, res) => {
@@ -66,4 +103,3 @@ export default usersController;
 //   };
 // }
 // export default UsersController;
-
