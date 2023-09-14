@@ -1,5 +1,6 @@
 import User from '../Models/usersModel.js';
 import express from 'express';
+import mongoose from 'mongoose';
 const usersController = express.Router();
 
 usersController.post('/createAdmin', (req, res) => {
@@ -20,20 +21,39 @@ usersController.get('/', async (req, res) => {
   res.json(users);
 })
 
-usersController.delete('/:username', async (req, res) => {
-  const deleteUser = req.params.username
-  const result = await User.findOneAndDelete(deleteUser);
+// usersController.delete('/:username', async (req, res) => {
+//   const deleteUser = req.params.username
+//   const result = await User.findOneAndDelete(deleteUser);
 
-  if (result) {
-    res.send("Success")
-  } else {
-    res.send("failed");
-  }
-  res.send(deleteUser)
+//   if (result) {
+//     res.send("Success")
+//   } else {
+//     res.send("failed");
+//   }
+//   res.send(deleteUser)
 
    
-})
+// })
 
+usersController.delete('/:username', async (req, res) => {
+  const usernameToDelete = req.params.username;
+
+  try {
+    // Convert usernameToDelete to ObjectId
+    const userIdToDelete = new mongoose.Types.ObjectId(usernameToDelete);
+
+    const result = await User.findOneAndDelete({ _id: userIdToDelete });
+
+    if (result) {
+      res.send("Success Deleted " + usernameToDelete);
+    } else {
+      res.send("User not found " + usernameToDelete);
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 usersController.put('/edit/:username', async (req, res) => {
 
