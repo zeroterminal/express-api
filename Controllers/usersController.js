@@ -1,16 +1,15 @@
 import User from "../Models/usersModel.js";
 import express from "express";
-import mongoose from "mongoose";
 const usersController = express.Router();
 
 usersController.post("/create/admin", (req, res) => {
 	res.json("CREATED username ADMIN and password P@ssword");
 	let admin = new User({
-		Username: "admin",
-		Name: "admin",
-		Email: "admin@zoned",
-		Password: "P@ssword",
-		Level: "Admin",
+		username: "admin",
+		name: "admin",
+		email: "admin@zoned",
+		password: "P@ssword",
+		level: "Admin",
 	});
 	admin.save();
 });
@@ -28,27 +27,27 @@ usersController.post("/create/randoms", async (req, res) => {
 	res.json("CREATED random accounts, check /users to view them");
 	let randoms = [
 		new User({
-			Username: "pizza",
-			Name: "myuwi",
-			Email: "noob@zonednetwork.com",
-			Password: "I-like-small-mushrooms",
-			Level: "noob",
+			username: "pizza",
+			name: "myuwi",
+			email: "noob@zonednetwork.com",
+			password: "I-like-small-mushrooms",
+			level: "noob",
 		}),
 
 		new User({
-			Username: "zero",
-			Name: "Jay",
-			Email: "Jay@zonednetwork.com",
-			Password: "123",
-			Level: "Admin",
+			username: "zero",
+			name: "Jay",
+			email: "Jay@zonednetwork.com",
+			password: "123",
+			level: "Admin",
 		}),
 
 		new User({
-			Username: "clot",
-			Name: "blut im Venen",
-			Email: "Venen@zonednetwork.com",
-			Password: "Schisse",
-			Level: "schisse",
+			username: "clot",
+			name: "blut im Venen",
+			email: "Venen@zonednetwork.com",
+			password: "Schisse",
+			level: "schisse",
 		}),
 	];
 	await User.insertMany(randoms);
@@ -57,31 +56,6 @@ usersController.post("/create/randoms", async (req, res) => {
 usersController.get("/", async (req, res) => {
 	const users = await User.find();
 	res.json(users);
-});
-
-usersController.delete("/delete/:username", async (req, res) => {
-	const userToDelete = req.params.username;
-
-	let deleteUser;
-
-	try {
-		deleteUser = await User.findOne({ username: userToDelete });
-	} catch (err) {
-		res.status(404).json({ message: err });
-		return;
-	}
-	// return; // Return from the function to prevent the code below from being executed.
-
-	// Only execute this code if the `deleteUser` variable is not undefined.
-	if (deleteUser) {
-		await deleteUser.deleteOne();
-		res.status(200).json({ message: "Succesfully Deleted " + username });
-	} else {
-		res.json({ message: userToDelete });
-		// res.status(404).json({ message: "User not found." });
-		return;
-	}
-	res.json({ message: "nothing" });
 });
 
 usersController.put("/edit/:username", async (req, res) => {
@@ -97,16 +71,31 @@ usersController.put("/edit/:username", async (req, res) => {
 
 usersController.post("/create", (req, res) => {
 	const createUser = new User({
-		Username: req.body.Username,
-		Name: req.body.Name,
+		username: req.body.username,
+		name: req.body.name,
 		Email: req.body.Email,
 		Password: req.body.Password,
 		Level: req.body.Level,
 	});
 	createUser.save();
 	return res.json({
-		message: "Successfully Created " + req.body.Username,
+		message: "Successfully Created " + req.body.username,
 	});
+});
+
+usersController.delete("/delete/:username", async (req, res) => {
+	try {
+		const user = await User.findOneAndDelete({
+			username: req.params.username,
+		});
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		res.status(200).json({ message: "User deleted successfully" });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 });
 
 export default usersController;
