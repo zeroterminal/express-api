@@ -11,7 +11,7 @@ const Users = new mongoose.Schema({
 	likes: { type: String },
 	dislikes: { type: String },
 	phone: { type: Number },
-	active: { type: Boolean },
+	active: { type: Boolean, default: 1 },
 });
 
 const User = mongoose.model("User", Users);

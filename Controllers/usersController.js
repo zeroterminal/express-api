@@ -46,8 +46,8 @@ usersController.post("/create/randoms", async (req, res) => {
 			username: "clot",
 			name: "blut im Venen",
 			email: "Venen@zonednetwork.com",
-			password: "Schisse",
-			level: "schisse",
+			password: "Scheiße",
+			level: "scheiße",
 		}),
 	];
 	await User.insertMany(randoms);
@@ -58,14 +58,44 @@ usersController.get("/", async (req, res) => {
 	res.json(users);
 });
 
-usersController.put("/edit/:username", async (req, res) => {
+usersController.get("/view/:username", async (req, res) => {
 	try {
-		const { id } = req.params.username;
-		// const editUser = await User.
+		const username = req.params.username;
+		const userPromise = User.findOne({ username });
+		const results = await Promise.allSettled([userPromise]);
+		if (results[0].status === "fulfilled") {
+			const user = results[0].value;
+			res.json({ user });
+		} else {
+			res.json({ message: "Invalid User" });
+		}
 	} catch (error) {
-		res.json({
-			message: error.message,
-		});
+		res.json({ message: error });
+	}
+});
+
+usersController.patch("/edit/:username", async (req, res) => {
+	try {
+		const user = await User.findOne(req.params.username);
+		const results = await Promise.allSettled([userPromise]);
+		if (results[0].status === "fulfilled") {
+			const user = results[0].value;
+			user.name = req.body.name;
+			user.email = req.body.email;
+			user.password = req.body.password;
+			user.level = req.body.level;
+			user.comments = req.body.comments;
+			user.likes = req.body.likes;
+			user.dislikes = req.body.dislikes;
+			user.phone = req.body.phone;
+			user.active = req.body.active;
+			await user.save();
+			res.json({ user });
+		} else {
+			res.json({ message: "Invalid User" });
+		}
+	} catch (error) {
+		res.json({ message: error });
 	}
 });
 
@@ -73,9 +103,14 @@ usersController.post("/create", (req, res) => {
 	const createUser = new User({
 		username: req.body.username,
 		name: req.body.name,
-		Email: req.body.Email,
-		Password: req.body.Password,
-		Level: req.body.Level,
+		email: req.body.email,
+		password: req.body.password,
+		level: req.body.level,
+		comments: req.body.comments,
+		likes: req.body.likes,
+		dislikes: req.body.dislikes,
+		phone: req.body.phone,
+		active: req.body.active,
 	});
 	createUser.save();
 	return res.json({
