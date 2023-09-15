@@ -1,5 +1,6 @@
 import User from "../Models/usersModel.js";
 import express from "express";
+import jwt from "jsonwebtoken";
 const usersController = express.Router();
 
 usersController.post("/create/admin", (req, res) => {
@@ -132,22 +133,3 @@ usersController.delete("/delete/:username", async (req, res) => {
 });
 
 export default usersController;
-
-// class UsersController {
-//   static login = async (req, res) => {
-//     const { username, password, email } = req.body;
-
-//     try {
-//       const username = await User.findOne({ username });
-//       const password = await User.findOne({ password });
-
-//       if (email && password) {
-//         console.log("Email found", username, password);
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       console.log("schbwshjcbecedj");
-//     }
-//   };
-// }
-// export default UsersController;

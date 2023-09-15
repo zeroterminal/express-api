@@ -8,8 +8,8 @@ const Users = new mongoose.Schema({
 	password: { type: String },
 	date: { type: Date, default: Date.now },
 	comments: { body: String, date: Date },
-	likes: { type: String },
-	dislikes: { type: String },
+	likes: { type: Array },
+	dislikes: { type: Array },
 	phone: { type: Number },
 	active: { type: Boolean, default: 1 },
 });
