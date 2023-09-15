@@ -65,7 +65,7 @@ usersController.get("/view/:username", async (req, res) => {
 		const results = await Promise.allSettled([userPromise]);
 		if (results[0].status === "fulfilled") {
 			const user = results[0].value;
-			res.json({ user });
+			res.json(user);
 		} else {
 			res.json({ message: "Invalid User" });
 		}
@@ -76,24 +76,22 @@ usersController.get("/view/:username", async (req, res) => {
 
 usersController.patch("/edit/:username", async (req, res) => {
 	try {
-		const user = await User.findOne(req.params.username);
-		const results = await Promise.allSettled([userPromise]);
-		if (results[0].status === "fulfilled") {
-			const user = results[0].value;
-			user.name = req.body.name;
-			user.email = req.body.email;
-			user.password = req.body.password;
-			user.level = req.body.level;
-			user.comments = req.body.comments;
-			user.likes = req.body.likes;
-			user.dislikes = req.body.dislikes;
-			user.phone = req.body.phone;
-			user.active = req.body.active;
-			await user.save();
-			res.json({ user });
-		} else {
-			res.json({ message: "Invalid User" });
-		}
+		const { username } = req.params.username;
+		const user = await User.findOne(username);
+
+		user.username = req.body.username ?? user.username;
+		user.name = req.body.name ?? user.name;
+		user.email = req.body.email ?? user.email;
+		user.password = req.body.password ?? user.password;
+		user.level = req.body.level ?? user.level;
+		user.comments = req.body.comments ?? user.comments;
+		user.likes = req.body.likes ?? user.likes;
+		user.dislikes = req.body.dislikes ?? user.dislikes;
+		user.phone = req.body.phone ?? user.phone;
+		user.active = req.body.active ?? user.active;
+
+		await user.save();
+		res.json(user);
 	} catch (error) {
 		res.json({ message: error });
 	}

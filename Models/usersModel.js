@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const Users = new mongoose.Schema({
 	username: { type: String, required: true, unique: true },
-	name: { type: String, required: true },
-	email: { type: String, required: true, unique: true },
+	name: { type: String },
+	email: { type: String, unique: true },
 	level: { type: String },
-	password: { type: String, required: true },
+	password: { type: String },
 	date: { type: Date, default: Date.now },
 	comments: { body: String, date: Date },
 	likes: { type: String },
