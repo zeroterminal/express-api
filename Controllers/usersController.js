@@ -1,7 +1,29 @@
+//  .S       S.     sSSs    sSSs   .S_sSSs      sSSs    sSSs    sSSs_sSSs     .S_sSSs    sdSS_SSSSSSbs   .S_sSSs      sSSs_sSSs    S.      S.        sSSs   .S_sSSs
+// .SS       SS.   d%%SP   d%%SP  .SS~YS%%b    d%%SP   d%%SP   d%%SP~YS%%b   .SS~YS%%b   YSSS~S%SSSSSP  .SS~YS%%b    d%%SP~YS%%b   SS.     SS.      d%%SP  .SS~YS%%b
+// S%S       S%S  d%S'    d%S'    S%S   `S%b  d%S'    d%S'    d%S'     `S%b  S%S   `S%b       S%S       S%S   `S%b  d%S'     `S%b  S%S     S%S     d%S'    S%S   `S%b
+// S%S       S%S  S%|     S%S     S%S    S%S  S%|     S%S     S%S       S%S  S%S    S%S       S%S       S%S    S%S  S%S       S%S  S%S     S%S     S%S     S%S    S%S
+// S&S       S&S  S&S     S&S     S%S    d*S  S&S     S&S     S&S       S&S  S%S    S&S       S&S       S%S    d*S  S&S       S&S  S&S     S&S     S&S     S%S    d*S
+// S&S       S&S  Y&Ss    S&S_Ss  S&S   .S*S  Y&Ss    S&S     S&S       S&S  S&S    S&S       S&S       S&S   .S*S  S&S       S&S  S&S     S&S     S&S_Ss  S&S   .S*S
+// S&S       S&S  `S&&S   S&S~SP  S&S_sdSSS   `S&&S   S&S     S&S       S&S  S&S    S&S       S&S       S&S_sdSSS   S&S       S&S  S&S     S&S     S&S~SP  S&S_sdSSS
+// S&S       S&S    `S*S  S&S     S&S~YSY%b     `S*S  S&S     S&S       S&S  S&S    S&S       S&S       S&S~YSY%b   S&S       S&S  S&S     S&S     S&S     S&S~YSY%b
+// S*b       d*S     l*S  S*b     S*S   `S%b     l*S  S*b     S*b       d*S  S*S    S*S       S*S       S*S   `S%b  S*b       d*S  S*b     S*b     S*b     S*S   `S%b
+// S*S.     .S*S    .S*P  S*S.    S*S    S%S    .S*P  S*S.    S*S.     .S*S  S*S    S*S       S*S       S*S    S%S  S*S.     .S*S  S*S.    S*S.    S*S.    S*S    S%S
+//  SSSbs_sdSSS   sSS*S    SSSbs  S*S    S&S  sSS*S    SSSbs   SSSbs_sdSSS   S*S    S*S       S*S       S*S    S&S   SSSbs_sdSSS    SSSbs   SSSbs   SSSbs  S*S    S&S
+//   YSSP~YSSY    YSS'      YSSP  S*S    SSS  YSS'      YSSP    YSSP~YSSY    S*S    SSS       S*S       S*S    SSS    YSSP~YSSY      YSSP    YSSP    YSSP  S*S    SSS
+//                                SP                                         SP               SP        SP                                                 SP
+//                                Y                                          Y                Y         Y                                                  Y
+
 import User from "../Models/usersModel.js";
 import express from "express";
 import jwt from "jsonwebtoken";
 const usersController = express.Router();
+
+//  ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗     █████╗ ██████╗ ███╗   ███╗██╗███╗   ██╗
+// ██╔════╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝    ██╔══██╗██╔══██╗████╗ ████║██║████╗  ██║
+// ██║     ██████╔╝█████╗  ███████║   ██║   █████╗      ███████║██║  ██║██╔████╔██║██║██╔██╗ ██║
+// ██║     ██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══╝      ██╔══██║██║  ██║██║╚██╔╝██║██║██║╚██╗██║
+// ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ██║  ██║██████╔╝██║ ╚═╝ ██║██║██║ ╚████║
+//  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝
 
 usersController.post("/create/admin", (req, res) => {
 	res.json("CREATED username ADMIN and password P@ssword");
@@ -15,6 +37,13 @@ usersController.post("/create/admin", (req, res) => {
 	admin.save();
 });
 
+// ██╗    ██╗██╗██████╗ ███████╗    ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
+// ██║    ██║██║██╔══██╗██╔════╝    ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
+// ██║ █╗ ██║██║██████╔╝█████╗      ██║  ██║███████║   ██║   ███████║██████╔╝███████║███████╗█████╗
+// ██║███╗██║██║██╔═══╝ ██╔══╝      ██║  ██║██╔══██║   ██║   ██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝
+// ╚███╔███╔╝██║██║     ███████╗    ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
+//  ╚══╝╚══╝ ╚═╝╚═╝     ╚══════╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+
 usersController.delete("/delete/everything", async (req, res) => {
 	const delete_all = await User.deleteMany({});
 	if (!delete_all) {
@@ -23,6 +52,12 @@ usersController.delete("/delete/everything", async (req, res) => {
 		res.status(200).json({ message: "Database Wiped." });
 	}
 });
+
+//    ____ ____  _____    _  _____ _____   ____      _    _   _ ____   ___  __  __      _    ____ ____ ___  _   _ _   _ _____ ____
+//   / ___|  _ \| ____|  / \|_   _| ____| |  _ \    / \  | \ | |  _ \ / _ \|  \/  |    / \  / ___/ ___/ _ \| | | | \ | |_   _/ ___|
+//  | |   | |_) |  _|   / _ \ | | |  _|   | |_) |  / _ \ |  \| | | | | | | | |\/| |   / _ \| |  | |  | | | | | | |  \| | | | \___ \
+//  | |___|  _ <| |___ / ___ \| | | |___  |  _ <  / ___ \| |\  | |_| | |_| | |  | |  / ___ \ |__| |__| |_| | |_| | |\  | | |  ___) |
+//   \____|_| \_\_____/_/   \_\_| |_____| |_| \_\/_/   \_\_| \_|____/ \___/|_|  |_| /_/   \_\____\____\___/ \___/|_| \_| |_| |____/
 
 usersController.post("/create/randoms", async (req, res) => {
 	res.json("CREATED random accounts, check /users to view them");
@@ -54,10 +89,24 @@ usersController.post("/create/randoms", async (req, res) => {
 	await User.insertMany(randoms);
 });
 
+// ██╗   ██╗██╗███████╗██╗    ██╗    ██╗   ██╗███████╗███████╗██████╗ ███████╗
+// ██║   ██║██║██╔════╝██║    ██║    ██║   ██║██╔════╝██╔════╝██╔══██╗██╔════╝
+// ██║   ██║██║█████╗  ██║ █╗ ██║    ██║   ██║███████╗█████╗  ██████╔╝███████╗
+// ╚██╗ ██╔╝██║██╔══╝  ██║███╗██║    ██║   ██║╚════██║██╔══╝  ██╔══██╗╚════██║
+//  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║███████║
+//   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
+
 usersController.get("/", async (req, res) => {
 	const users = await User.find();
 	res.json(users);
 });
+
+// ██╗   ██╗██╗███████╗██╗    ██╗    ██╗   ██╗███████╗███████╗██████╗ ███╗   ██╗ █████╗ ███╗   ███╗███████╗
+// ██║   ██║██║██╔════╝██║    ██║    ██║   ██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗████╗ ████║██╔════╝
+// ██║   ██║██║█████╗  ██║ █╗ ██║    ██║   ██║███████╗█████╗  ██████╔╝██╔██╗ ██║███████║██╔████╔██║█████╗
+// ╚██╗ ██╔╝██║██╔══╝  ██║███╗██║    ██║   ██║╚════██║██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║██║╚██╔╝██║██╔══╝
+//  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
+//   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
 usersController.get("/view/:username", async (req, res) => {
 	try {
@@ -74,6 +123,13 @@ usersController.get("/view/:username", async (req, res) => {
 		res.json({ message: error });
 	}
 });
+
+// ███████╗██████╗ ██╗████████╗    ██╗   ██╗███████╗███████╗██████╗ ███╗   ██╗ █████╗ ███╗   ███╗███████╗
+// ██╔════╝██╔══██╗██║╚══██╔══╝    ██║   ██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗████╗ ████║██╔════╝
+// █████╗  ██║  ██║██║   ██║       ██║   ██║███████╗█████╗  ██████╔╝██╔██╗ ██║███████║██╔████╔██║█████╗
+// ██╔══╝  ██║  ██║██║   ██║       ██║   ██║╚════██║██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║██║╚██╔╝██║██╔══╝
+// ███████╗██████╔╝██║   ██║       ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
+// ╚══════╝╚═════╝ ╚═╝   ╚═╝        ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
 usersController.patch("/edit/:username", async (req, res) => {
 	try {
@@ -98,6 +154,13 @@ usersController.patch("/edit/:username", async (req, res) => {
 	}
 });
 
+//  ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗    ██╗   ██╗███████╗███████╗██████╗
+// ██╔════╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝    ██║   ██║██╔════╝██╔════╝██╔══██╗
+// ██║     ██████╔╝█████╗  ███████║   ██║   █████╗      ██║   ██║███████╗█████╗  ██████╔╝
+// ██║     ██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══╝      ██║   ██║╚════██║██╔══╝  ██╔══██╗
+// ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
+//  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+
 usersController.post("/create", (req, res) => {
 	const createUser = new User({
 		username: req.body.username,
@@ -117,6 +180,13 @@ usersController.post("/create", (req, res) => {
 	});
 });
 
+// ██████╗ ███████╗██╗     ███████╗████████╗███████╗    ██╗   ██╗███████╗███████╗██████╗
+// ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝    ██║   ██║██╔════╝██╔════╝██╔══██╗
+// ██║  ██║█████╗  ██║     █████╗     ██║   █████╗      ██║   ██║███████╗█████╗  ██████╔╝
+// ██║  ██║██╔══╝  ██║     ██╔══╝     ██║   ██╔══╝      ██║   ██║╚════██║██╔══╝  ██╔══██╗
+// ██████╔╝███████╗███████╗███████╗   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
+// ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+
 usersController.delete("/delete/:username", async (req, res) => {
 	try {
 		const user = await User.findOneAndDelete({
@@ -130,6 +200,68 @@ usersController.delete("/delete/:username", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
+});
+
+// ██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗
+// ██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+// ██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   █████╗  ██████╔╝
+// ██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══╝  ██╔══██╗
+// ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
+// ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+
+usersController.post("/register", async (req, res) => {
+	const { username, name, email, level, password } = req.body;
+
+	if (!username || !name || !email || !level || !password) {
+		return res.status(400).json({ message: "Invalid request body" });
+	}
+
+	const existingUser = await User.findOne({ username });
+
+	if (existingUser) {
+		return res.status(409).json({ message: "User already exists" });
+	}
+
+	const newUser = new User({ username, name, email, level, password });
+
+	try {
+		await newUser.save();
+	} catch (error) {
+		return res.status(500).json({ message: error.message });
+	}
+
+	// Send a success response
+	return res.status(201).json({ message: "User created successfully" });
+});
+
+// ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
+// ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║
+// ██║     ██║   ██║██║  ███╗██║██╔██╗ ██║
+// ██║     ██║   ██║██║   ██║██║██║╚██╗██║
+// ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
+// ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝
+
+usersController.post("/register", async (req, res) => {
+	const { username, password } = req.body;
+
+	if (!username || !password) {
+		return res.status(400).json({ message: "Invalid request body" });
+	}
+
+	const user = await User.findOne({ username });
+	if (!user) {
+		return res.status(404).json({ message: "User not found" });
+	}
+
+	const isPasswordCorrect = await user.comparePassword(password);
+
+	if (!isPasswordCorrect) {
+		return res.status(401).json({ message: "Incorrect password" });
+	}
+
+	const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+		expiresIn: "1h",
+	});
 });
 
 export default usersController;
