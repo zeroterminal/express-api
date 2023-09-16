@@ -3,15 +3,20 @@
 // S%S       S%S  d%S'    d%S'    S%S   `S%b  d%S'    d%S'    d%S'     `S%b  S%S   `S%b       S%S       S%S   `S%b  d%S'     `S%b  S%S     S%S     d%S'    S%S   `S%b
 // S%S       S%S  S%|     S%S     S%S    S%S  S%|     S%S     S%S       S%S  S%S    S%S       S%S       S%S    S%S  S%S       S%S  S%S     S%S     S%S     S%S    S%S
 // S&S       S&S  S&S     S&S     S%S    d*S  S&S     S&S     S&S       S&S  S%S    S&S       S&S       S%S    d*S  S&S       S&S  S&S     S&S     S&S     S%S    d*S
-// S&S       S&S  Y&Ss    S&S_Ss  S&S   .S*S  Y&Ss    S&S     S&S       S&S  S&S    S&S       S&S       S&S   .S*S  S&S       S&S  S&S     S&S     S&S_Ss  S&S   .S*S
-// S&S       S&S  `S&&S   S&S~SP  S&S_sdSSS   `S&&S   S&S     S&S       S&S  S&S    S&S       S&S       S&S_sdSSS   S&S       S&S  S&S     S&S     S&S~SP  S&S_sdSSS
-// S&S       S&S    `S*S  S&S     S&S~YSY%b     `S*S  S&S     S&S       S&S  S&S    S&S       S&S       S&S~YSY%b   S&S       S&S  S&S     S&S     S&S     S&S~YSY%b
-// S*b       d*S     l*S  S*b     S*S   `S%b     l*S  S*b     S*b       d*S  S*S    S*S       S*S       S*S   `S%b  S*b       d*S  S*b     S*b     S*b     S*S   `S%b
-// S*S.     .S*S    .S*P  S*S.    S*S    S%S    .S*P  S*S.    S*S.     .S*S  S*S    S*S       S*S       S*S    S%S  S*S.     .S*S  S*S.    S*S.    S*S.    S*S    S%S
-//  SSSbs_sdSSS   sSS*S    SSSbs  S*S    S&S  sSS*S    SSSbs   SSSbs_sdSSS   S*S    S*S       S*S       S*S    S&S   SSSbs_sdSSS    SSSbs   SSSbs   SSSbs  S*S    S&S
-//   YSSP~YSSY    YSS'      YSSP  S*S    SSS  YSS'      YSSP    YSSP~YSSY    S*S    SSS       S*S       S*S    SSS    YSSP~YSSY      YSSP    YSSP    YSSP  S*S    SSS
-//                                SP                                         SP               SP        SP                                                 SP
-//                                Y                                          Y                Y         Y                                                  Y
+//
+"html.trace.server": "messages",
+"html.trace": "verbose",
+"css.format.spaceAroundSelectorSeparator": true,
+"editor.tabCompletion": "on",
+"git.openRepositoryInParentFolders": "always", S & S S & S Y & Ss S & S_Ss S & S.S * S Y & Ss S & S S & S S & S S & S S & S S & S S & S.S * S S & S S & S S & S S & S S & S_Ss S & S.S * S
+    // S&S       S&S  `S&&S   S&S~SP  S&S_sdSSS   `S&&S   S&S     S&S       S&S  S&S    S&S       S&S       S&S_sdSSS   S&S       S&S  S&S     S&S     S&S~SP  S&S_sdSSS
+    // S&S       S&S    `S*S  S&S     S&S~YSY%b     `S*S  S&S     S&S       S&S  S&S    S&S       S&S       S&S~YSY%b   S&S       S&S  S&S     S&S     S&S     S&S~YSY%b
+    // S*b       d*S     l*S  S*b     S*S   `S%b     l*S  S*b     S*b       d*S  S*S    S*S       S*S       S*S   `S%b  S*b       d*S  S*b     S*b     S*b     S*S   `S%b
+    // S*S.     .S*S    .S*P  S*S.    S*S    S%S    .S*P  S*S.    S*S.     .S*S  S*S    S*S       S*S       S*S    S%S  S*S.     .S*S  S*S.    S*S.    S*S.    S*S    S%S
+    //  SSSbs_sdSSS   sSS*S    SSSbs  S*S    S&S  sSS*S    SSSbs   SSSbs_sdSSS   S*S    S*S       S*S       S*S    S&S   SSSbs_sdSSS    SSSbs   SSSbs   SSSbs  S*S    S&S
+    //   YSSP~YSSY    YSS'      YSSP  S*S    SSS  YSS'      YSSP    YSSP~YSSY    S*S    SSS       S*S       S*S    SSS    YSSP~YSSY      YSSP    YSSP    YSSP  S*S    SSS
+    //                                SP                                         SP               SP        SP                                                 SP
+    //                                Y                                          Y                Y         Y                                                  Y
 
 import User from "../Models/usersModel.js";
 import express from "express";
@@ -137,19 +142,16 @@ usersController.patch("/edit/:username", async(req, res) => {
         const { username } = req.params.username;
         const user = await User.findOne(username);
 
-        user.username = req.body.username ? req.body.username : user.username;
-        user.name = req.body.name ? req.body.name : user.name;
-        user.email = req.body.email ? req.body.email : user.email;
-        user.password = req.body.password ? req.body.password : user.password;
-        user.level = req.body.level ? req.body.level : user.level;
-        user.comments = req.body.comments ? req.body.comments : user.comments;
-        user.likes = req.body.likes ? req.body.likes : user.likes;
-        user.dislikes = req.body.dislikes ? req.body.dislikes : user.dislikes;
-        user.phone = req.body.phone ? req.body.phone : user.phone;
-        user.active = req.body.active ? req.body.active : user.active;
-
-
-
+        user.username = req.body.username ? ? user.username;
+        user.name = req.body.name ? ? user.name;
+        user.email = req.body.email ? ? user.email;
+        user.password = req.body.password ? ? user.password;
+        user.level = req.body.level ? ? user.level;
+        user.comments = req.body.comments ? ? user.comments;
+        user.likes = req.body.likes ? ? user.likes;
+        user.dislikes = req.body.dislikes ? ? user.dislikes;
+        user.phone = req.body.phone ? ? user.phone;
+        user.active = req.body.active ? ? user.active;
 
         await user.save();
         res.json(user);

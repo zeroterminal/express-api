@@ -137,6 +137,17 @@ usersController.patch("/edit/:username", async(req, res) => {
         const { username } = req.params.username;
         const user = await User.findOne(username);
 
+        user.username = req.body.username ? user.username;
+        user.name = req.body.name ? user.name;
+        user.email = req.body.email ? user.email;
+        user.password = req.body.password ? user.password;
+        user.level = req.body.level ? user.level;
+        user.comments = req.body.comments ? user.comments;
+        user.likes = req.body.likes ? user.likes;
+        user.dislikes = req.body.dislikes ? user.dislikes;
+        user.phone = req.body.phone ? user.phone;
+        user.active = req.body.active ? user.active;
+
         user.username = req.body.username ? req.body.username : user.username;
         user.name = req.body.name ? req.body.name : user.name;
         user.email = req.body.email ? req.body.email : user.email;
@@ -147,8 +158,6 @@ usersController.patch("/edit/:username", async(req, res) => {
         user.dislikes = req.body.dislikes ? req.body.dislikes : user.dislikes;
         user.phone = req.body.phone ? req.body.phone : user.phone;
         user.active = req.body.active ? req.body.active : user.active;
-
-
 
 
         await user.save();
