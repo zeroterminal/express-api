@@ -265,7 +265,7 @@ usersController.post("/login", async(req, res, next) => {
     try {
         //Creating jwt token
         token = jwt.sign({ userId: existingUser.id, username: existingUser.username },
-            process.env.JWT_SECRET, { expiresIn: "1h" }
+            process.env.W, { expiresIn: "1h" }
         );
     } catch (err) {
         console.log(err);

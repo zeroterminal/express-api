@@ -211,7 +211,7 @@ usersController.delete("/delete/:username", async(req, res) => {
 // ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
 // ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 
-usersController.post("/register", async(req, res, next) => {
+usersController.post("/signup", async(req, res, next) => {
     const { name, email, password } = req.body;
     const newUser = User({
         name,
@@ -265,7 +265,7 @@ usersController.post("/login", async(req, res, next) => {
     try {
         //Creating jwt token
         token = jwt.sign({ userId: existingUser.id, username: existingUser.username },
-            process.env.JWT_SECRET, { expiresIn: "1h" }
+            "secretkeyappearshere", { expiresIn: "1h" }
         );
     } catch (err) {
         console.log(err);

@@ -211,33 +211,29 @@ usersController.delete("/delete/:username", async(req, res) => {
 // ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
 // ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 
-usersController.post("/register", async(req, res, next) => {
-    const { name, email, password } = req.body;
-    const newUser = User({
-        name,
-        email,
-        password,
-    });
+usersController.post("/register", async(req, res) => {
+    const { username, name, email, level, password } = req.body;
+
+    if (!username || !name || !email || !password) {
+        return res.status(400).json({ message: "Invalid request body" });
+    }
+
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+        return res.status(409).json({ message: "User already exists" });
+    }
+
+    const newUser = new User({ username, name, email, level, password });
 
     try {
         await newUser.save();
-    } catch {
-        const error = new Error("Error! Something went wrong.");
-        return next(error);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
-    let token;
-    try {
-        token = jwt.sign({ userId: newUser.id, email: newUser.email },
-            "secretkeyappearshere", { expiresIn: "1h" }
-        );
-    } catch (err) {
-        const error = new Error("Error! Something went wrong.");
-        return next(error);
-    }
-    res.status(201).json({
-        success: true,
-        data: { userId: newUser.id, email: newUser.email, token: token },
-    });
+
+    // Send a success response
+    return res.status(201).json({ message: "User created successfully" });
 });
 
 // ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
@@ -247,12 +243,12 @@ usersController.post("/register", async(req, res, next) => {
 // ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
 // ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝
 
-usersController.post("/login", async(req, res, next) => {
-    let { username, password } = req.body;
+app.post("/login", async(req, res, next) => {
+    let { email, password } = req.body;
 
     let existingUser;
     try {
-        existingUser = await User.findOne({ username: username });
+        existingUser = await User.findOne({ email: email });
     } catch {
         const error = new Error("Error! Something went wrong.");
         return next(error);
@@ -264,8 +260,8 @@ usersController.post("/login", async(req, res, next) => {
     let token;
     try {
         //Creating jwt token
-        token = jwt.sign({ userId: existingUser.id, username: existingUser.username },
-            process.env.JWT_SECRET, { expiresIn: "1h" }
+        token = jwt.sign({ userId: existingUser.id, email: existingUser.email },
+            "secretkeyappearshere", { expiresIn: "1h" }
         );
     } catch (err) {
         console.log(err);
@@ -277,7 +273,7 @@ usersController.post("/login", async(req, res, next) => {
         success: true,
         data: {
             userId: existingPUser.id,
-            username: existingUser.username,
+            email: existingUser.email,
             token: token,
         },
     });

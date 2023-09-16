@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
 const Users = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        typeKey: '$type'
+    },
     name: { type: String },
     email: { type: String, unique: true },
     level: { type: String },

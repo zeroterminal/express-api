@@ -11,9 +11,9 @@ const Users = new mongoose.Schema({
     likes: { type: Array },
     dislikes: { type: Array },
     phone: { type: Number },
-    active: { type: Boolean, default: 1 },
-});
+}, { typeKey: '$type' });
+active: { type: Boolean, default: 1 },
 
-const User = mongoose.model("User", Users);
+    const User = mongoose.model("User", Users);
 
 export default User;

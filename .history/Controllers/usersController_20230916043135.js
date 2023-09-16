@@ -264,9 +264,7 @@ usersController.post("/login", async(req, res, next) => {
     let token;
     try {
         //Creating jwt token
-        token = jwt.sign({ userId: existingUser.id, username: existingUser.username },
-            process.env.JWT_SECRET, { expiresIn: "1h" }
-        );
+        token = jwt.sign({ userId: existingUser.id, username: existingUser.username }, JWT, { expiresIn: "1h" });
     } catch (err) {
         console.log(err);
         const error = new Error("Error! Something went wrong.");

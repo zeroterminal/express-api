@@ -12,7 +12,7 @@ const Users = new mongoose.Schema({
     dislikes: { type: Array },
     phone: { type: Number },
     active: { type: Boolean, default: 1 },
-});
+}, );
 
 const User = mongoose.model("User", Users);
 
