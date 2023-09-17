@@ -1,6 +1,5 @@
-import api from './router/api.js';
+import router from './router/api.js';
 import express from 'express';
-import usersController from './controllers/usersController.js';
 import mongoose from 'mongoose';
 import bodyParser from "body-parser";
 import 'dotenv/config';
@@ -17,6 +16,8 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use('/users', usersController);
+app.use('/users', router);
+
+app.get('/', (req, res) => { res.send("<pre>HOME PAGE</pre>") })
 
 app.listen(PORT, () => console.log(`server running on ${PORT}`));
