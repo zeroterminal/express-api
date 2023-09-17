@@ -62,7 +62,6 @@ const wipedb = async(req, res) => {
 // ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝
 
 const createRandomAccounts = async(req, res) => {
-    res.json("CREATED random accounts, check /users to view them");
     let randoms = [
         new User({
             username: "pizza",
@@ -89,6 +88,7 @@ const createRandomAccounts = async(req, res) => {
         }),
     ];
     await User.insertMany(randoms);
+    res.json("CREATED random accounts, check /users to view them");
 };
 
 // ██╗   ██╗██╗███████╗██╗    ██╗    ██╗   ██╗███████╗███████╗██████╗ ███████╗
@@ -179,7 +179,7 @@ const create = async(req, res) => {
     });
     createUser.save();
     return res.json({
-        message: "Successfully Created " + req.body.username,
+        message: "Successfully Created "
     });
 };
 
@@ -274,21 +274,14 @@ const login = async(req, res) => {
         return next(error);
     }
 
-    res.status(200).json({
-        success: true,
-        data: {
-            userId: existingPUser.id,
-            username: existingUser.username,
-            token: token,
-        },
-    });
+    res.status(200).json({ success: true, data: { userId: existingUser.id, username: existingUser.username, token: token, }, });
 };
 
-export {
+export default {
     createAdmin,
-    deleteEverything,
+    wipedb,
     createRandomAccounts,
-    getAllUsers,
+    getUsers,
     view,
     edit,
     create,
