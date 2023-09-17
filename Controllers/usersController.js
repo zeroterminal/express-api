@@ -25,7 +25,8 @@ const usersController = express.Router();
 // ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ██║  ██║██████╔╝██║ ╚═╝ ██║██║██║ ╚████║
 //  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝
 
-usersController.post("/create/admin", (req, res) => {
+
+const createAdmin = async(req, res) => {
     res.json("CREATED username ADMIN and password P@ssword");
     let admin = new User({
         username: "admin",
@@ -35,7 +36,7 @@ usersController.post("/create/admin", (req, res) => {
         level: "Admin",
     });
     admin.save();
-});
+};
 
 // ██╗    ██╗██╗██████╗ ███████╗    ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
 // ██║    ██║██║██╔══██╗██╔════╝    ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
@@ -44,14 +45,14 @@ usersController.post("/create/admin", (req, res) => {
 // ╚███╔███╔╝██║██║     ███████╗    ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
 //  ╚══╝╚══╝ ╚═╝╚═╝     ╚══════╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 
-usersController.delete("/delete/everything", async(req, res) => {
+const wipedb = async(req, res) => {
     const delete_all = await User.deleteMany({});
     if (!delete_all) {
         res.status(404).json({ message: "Error." });
     } else {
         res.status(200).json({ message: "Database Wiped." });
     }
-});
+};
 
 // ██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗
 // ██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔═══██╗████╗ ████║
@@ -60,7 +61,7 @@ usersController.delete("/delete/everything", async(req, res) => {
 // ██║  ██║██║  ██║██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║
 // ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝
 
-usersController.post("/create/randoms", async(req, res) => {
+const createRandomAccounts = async(req, res) => {
     res.json("CREATED random accounts, check /users to view them");
     let randoms = [
         new User({
@@ -88,7 +89,7 @@ usersController.post("/create/randoms", async(req, res) => {
         }),
     ];
     await User.insertMany(randoms);
-});
+};
 
 // ██╗   ██╗██╗███████╗██╗    ██╗    ██╗   ██╗███████╗███████╗██████╗ ███████╗
 // ██║   ██║██║██╔════╝██║    ██║    ██║   ██║██╔════╝██╔════╝██╔══██╗██╔════╝
@@ -97,10 +98,10 @@ usersController.post("/create/randoms", async(req, res) => {
 //  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║███████║
 //   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
 
-usersController.get("/", async(req, res) => {
+const getUsers = async(req, res) => {
     const users = await User.find();
     res.json(users);
-});
+};
 
 // ██╗   ██╗██╗███████╗██╗    ██╗    ██╗   ██╗███████╗███████╗██████╗ ███╗   ██╗ █████╗ ███╗   ███╗███████╗
 // ██║   ██║██║██╔════╝██║    ██║    ██║   ██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗████╗ ████║██╔════╝
@@ -109,7 +110,7 @@ usersController.get("/", async(req, res) => {
 //  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
 //   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-usersController.get("/view/:username", async(req, res) => {
+const view = async(req, res) => {
     try {
         const username = req.params.username;
         const userPromise = User.findOne({ username });
@@ -123,7 +124,7 @@ usersController.get("/view/:username", async(req, res) => {
     } catch (error) {
         res.json({ message: error });
     }
-});
+};
 
 // ███████╗██████╗ ██╗████████╗    ██╗   ██╗███████╗███████╗██████╗ ███╗   ██╗ █████╗ ███╗   ███╗███████╗
 // ██╔════╝██╔══██╗██║╚══██╔══╝    ██║   ██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗████╗ ████║██╔════╝
@@ -132,7 +133,7 @@ usersController.get("/view/:username", async(req, res) => {
 // ███████╗██████╔╝██║   ██║       ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
 // ╚══════╝╚═════╝ ╚═╝   ╚═╝        ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-usersController.patch("/edit/:username", async(req, res) => {
+const edit = async(req, res) => {
     try {
         const { username } = req.params;
         const user = await User.findOne({ username });
@@ -154,7 +155,7 @@ usersController.patch("/edit/:username", async(req, res) => {
     } catch (error) {
         res.json({ message: error });
     }
-});
+};
 
 //  ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗    ██╗   ██╗███████╗███████╗██████╗
 // ██╔════╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝    ██║   ██║██╔════╝██╔════╝██╔══██╗
@@ -163,7 +164,7 @@ usersController.patch("/edit/:username", async(req, res) => {
 // ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
 //  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
-usersController.post("/create", (req, res) => {
+const create = async(req, res) => {
     const createUser = new User({
         username: req.body.username,
         name: req.body.name,
@@ -180,7 +181,7 @@ usersController.post("/create", (req, res) => {
     return res.json({
         message: "Successfully Created " + req.body.username,
     });
-});
+};
 
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗    ██╗   ██╗███████╗███████╗██████╗
 // ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝    ██║   ██║██╔════╝██╔════╝██╔══██╗
@@ -189,7 +190,7 @@ usersController.post("/create", (req, res) => {
 // ██████╔╝███████╗███████╗███████╗   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
 // ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
-usersController.delete("/delete/:username", async(req, res) => {
+const del = async(req, res) => {
     try {
         const user = await User.findOneAndDelete({
             username: req.params.username,
@@ -202,7 +203,7 @@ usersController.delete("/delete/:username", async(req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
 // ██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗
 // ██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
@@ -211,7 +212,7 @@ usersController.delete("/delete/:username", async(req, res) => {
 // ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
 // ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 
-usersController.post("/register", async(req, res, next) => {
+const register = async(req, res) => {
     const { name, email, password } = req.body;
     const newUser = User({
         name,
@@ -238,7 +239,7 @@ usersController.post("/register", async(req, res, next) => {
         success: true,
         data: { userId: newUser.id, email: newUser.email, token: token },
     });
-});
+};
 
 // ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
 // ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║
@@ -247,7 +248,7 @@ usersController.post("/register", async(req, res, next) => {
 // ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
 // ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝
 
-usersController.post("/login", async(req, res, next) => {
+const login = async(req, res) => {
     let { username, password } = req.body;
 
     let existingUser;
@@ -281,6 +282,17 @@ usersController.post("/login", async(req, res, next) => {
             token: token,
         },
     });
-});
+};
 
-export default usersController;
+export {
+    createAdmin,
+    deleteEverything,
+    createRandomAccounts,
+    getAllUsers,
+    view,
+    edit,
+    create,
+    del,
+    register,
+    login,
+};
