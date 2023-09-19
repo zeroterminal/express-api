@@ -18,6 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/users', router);
 
-app.get('/', (req, res) => { res.send("<pre>HOME PAGE</pre>") })
+app.get('/', (req, res) => { res.json("HOME PAGE") })
 
 app.listen(PORT, () => console.log(`server running on ${PORT}`));
