@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Users = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    user_picture: { type: String },
+    picture: { type: String },
     name: { type: String },
     email: { type: String, unique: true },
     level: { type: String },
