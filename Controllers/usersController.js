@@ -27,6 +27,7 @@ import User from "../Models/usersModel.js";
 import express from "express";
 import jwt from "jsonwebtoken";
 import * as fs from 'fs';
+import * as fss from 'fs-extra';
 const usersController = express.Router();
 
 //  ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗     █████╗ ██████╗ ███╗   ███╗██╗███╗   ██╗
@@ -37,54 +38,73 @@ const usersController = express.Router();
 //  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝
 
 
-const createAdmin = async(req, res) => {
-    const username = "admin";
-
+const folder = 'users';
+async function initUser(username) {
     try {
+        if (!fs.existsSync(folder)) {
+            fs.mkdir(folder + username + "/", (err) => {
+                if (err) {
+                    console.error("Error creating Directory:", err);
+                } else {
+                    console.log("Created ");
+                }
+            });
+            fs.writeFile(folder + username + "/index.html", '', (err) => {
+                if (err) {
+                    console.error("Error creating index:", err);
+                } else {
+                    console.log("Created index");
+                }
+            });
+            fs.copyFile('user.png', folder + username + "/user.png", (err) => {
+                if (err) {
+                    console.error("Error creating user profile pic", err);
+                } else {
+                    console.log("Created user profile pic");
+                }
+            });
+        }
+    } catch (error) {
+        console.error("ERRORRRR " + error);
+        res.status(500).json({ message: error });
+    }
+}
 
-        fs.mkdir(`./users/${username}`, (err) => {
+async function destroyUser(username) {
+    try {
+        fss.emptyDirSync(folder + "/" + username, (err) => {
             if (err) {
-                console.error("Error creating Admin Directory:", err);
+                console.error("Error creating Directory:", err);
             } else {
-                console.log("Created users/admin/");
+                console.log("Created ");
             }
         });
 
+        console.log("Deleted username " + username + " and password P@ssword");
+    } catch (error) {
+        console.error("Errorrrrr :: " + error);
+        // console.log("******* \n" + folder + "/" + username + "\n*******")
+    }
+}
 
-        fs.writeFile(`./users/${username}/index.html`, '', (err) => {
-            if (err) {
-                console.error("Error creating Admin Files index:", err);
-            } else {
-                console.log("Created users/admin/index.html");
-            }
-        });
-
-
-        fs.copyFile('user.png', `./users/${username}/user.png`, (err) => {
-            if (err) {
-                console.error("Error creating Admin Files index:", err);
-            } else {
-                console.log("Copied users/admin/user.png");
-            }
-        });
-
-        // Create and save the User model
+const createAdmin = async (req, res) => {
+    const username = "admin";
+    try {
+        initUser(username);
         const admin = new User({
             username: username,
             name: username,
-            picture: `users/${username}/picture/user.png`,
-            files: `users/${username}/files/`,
+            picture: folder + username + "/picture/user.png",
+            files: folder + username + "/files/",
             email: "admin@zonednetwork.com",
             password: "P@ssword",
             level: "Admin",
         });
         await admin.save();
-
-        // Send the response after all operations are completed
         res.json("CREATED username ADMIN and password P@ssword");
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error("Errorrrrr" + error);
+        res.status(500).json({ message: error });
     }
 };
 
@@ -95,28 +115,34 @@ const createAdmin = async(req, res) => {
 // ╚███╔███╔╝██║██║     ███████╗    ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
 //  ╚══╝╚══╝ ╚═╝╚═╝     ╚══════╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 
-const wipedb = async(req, res) => {
+const wipedb = async (req, res) => {
     const delete_all = await User.deleteMany({});
     try {
-        fs.unlink(`./users`, (err) => {
-            if (err) {} else {
-                console.log("Deleted All Users");
+        // DELETE USERS FOLDER
+        fss.emptyDirSync('users', (err) => {
+            if (err) { } else {
+                console.log("Error deleting Users/ folder");
             }
         });
+        // Delete accounts
         if (!delete_all) {
             res.status(404).json({ message: "Error." });
         } else {
-            fs.mkdir(`./users/`, (err) => {
-                if (err) {
-                    console.error("Error creating Admin Directory:", err);
-                } else {
-                    console.log("Created users/");
-                }
-            });
-            res.status(200).json({ message: "Database Wiped." });
+            // RE CREATE USERS FOLDER
+            if (!fs.existsSync(folder)) {
+                fs.mkdir(folder, (err) => {
+                    if (err) {
+                        console.error("Error creating users Directory:", err);
+                    } else {
+                        console.log("Created users");
+                    }
+                });
+            } else {
+                res.status(200).json({ message: "Database Wiped." });
+            }
         }
     } catch (error) {
-
+        res.status(200).json({ message: `Errorrrrrrrrrrrrr : ${error}` });
     }
 };
 
@@ -127,7 +153,7 @@ const wipedb = async(req, res) => {
 // ██║  ██║██║  ██║██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║
 // ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝
 
-const createRandomAccounts = async(req, res) => {
+const createRandomAccounts = async (req, res) => {
     let randoms = [
         new User({
             username: "pizza",
@@ -164,7 +190,7 @@ const createRandomAccounts = async(req, res) => {
 //  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║███████║
 //   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
 
-const getUsers = async(req, res) => {
+const getUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);
 };
@@ -176,7 +202,7 @@ const getUsers = async(req, res) => {
 //  ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
 //   ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-const view = async(req, res) => {
+const view = async (req, res) => {
     try {
         const username = req.params.username;
         const userPromise = User.findOne({ username });
@@ -199,7 +225,7 @@ const view = async(req, res) => {
 // ███████╗██████╔╝██║   ██║       ╚██████╔╝███████║███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
 // ╚══════╝╚═════╝ ╚═╝   ╚═╝        ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-const edit = async(req, res) => {
+const edit = async (req, res) => {
     try {
         const { username } = req.params;
         const user = await User.findOne({ username });
@@ -230,7 +256,7 @@ const edit = async(req, res) => {
 // ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
 //  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
-const create = async(req, res) => {
+const create = async (req, res) => {
 
     const createUser = new User({
         username: req.body.username,
@@ -245,7 +271,7 @@ const create = async(req, res) => {
         active: req.body.active,
     });
 
-    fs.mkdir(`./users/${username}`, (err) => {
+    fs.mkdir(folder + username, (err) => {
         if (err) {
             console.error("Error creating User Files Directory:", err);
         } else {
@@ -254,7 +280,7 @@ const create = async(req, res) => {
     });
 
 
-    fs.writeFile(`./users/${username}/index.html`, '', (err) => {
+    fs.writeFile(folder + username + "/index.html", '', (err) => {
         if (err) {
             console.error("Error creating User Files index:", err);
         } else {
@@ -263,7 +289,7 @@ const create = async(req, res) => {
     });
 
 
-    fs.copyFile('user.png', `Created Default Profile Picture user : ${username}/user.png`, (err) => {
+    fs.copyFile('user.png', username + "/user.png", (err) => {
         if (err) {
             console.error("Error creating User Files index:", err);
         } else {
@@ -284,7 +310,7 @@ const create = async(req, res) => {
 // ██████╔╝███████╗███████╗███████╗   ██║   ███████╗    ╚██████╔╝███████║███████╗██║  ██║
 // ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
-const del = async(req, res) => {
+const del = async (req, res) => {
     try {
         const user = await User.findOneAndDelete({
             username: req.params.username,
@@ -293,34 +319,10 @@ const del = async(req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        fs.unlink(`./users/${username}`, (err) => {
-            if (err) {
-                console.error("Error creating User Files Directory:", err);
-            } else {
-                console.log("Deleted User");
-            }
-        });
-
-
-        fs.unlink(`./users/${username}/index.html`, '', (err) => {
-            if (err) {
-                console.error("Error Deleting User Files index", err);
-            } else {
-                console.log("Created users/admin/index.html");
-            }
-        });
-
-
-        fs.unlink('user.png', `./users/${username}/user.png`, (err) => {
-            if (err) {
-                console.error("Error creating Admin Files index:", err);
-            } else {
-                console.log("Copied users/admin/user.png");
-            }
-        });
+        destroyUser(user.username);
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: `Deleted User: ${req.params.username}.` });
+        res.status(500).json({ message: `Error Deleting User: ${req.params.username}.` });
     }
 };
 
@@ -331,7 +333,7 @@ const del = async(req, res) => {
 // ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
 // ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 
-const register = async(req, res) => {
+const register = async (req, res) => {
     const { name, email, password } = req.body;
     const newUser = User({
         name,
@@ -367,7 +369,7 @@ const register = async(req, res) => {
 // ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
 // ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝
 
-const login = async(req, res) => {
+const login = async (req, res) => {
     let { username, password } = req.body;
 
     let existingUser;
